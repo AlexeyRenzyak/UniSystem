@@ -1,27 +1,41 @@
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Vector;
 
 public class Comment {
+    private Integer commentId; 
+    private String authorName; 
+    private String content; 
+    private Date timestamp; 
+    private Integer relatedObjectId;
+    private boolean isPinned; 
 
-    private News parentNews;
-    private Date timestamp;
-    private String content;
-    private User author;
-    private boolean pinned;
-
-    public News getParentNews() {
-        return parentNews;
+    
+    public Comment(Integer commentId, String authorName, String content, Integer relatedObjectId) {
+        this.commentId = commentId;
+        this.authorName = authorName;
+        this.content = content;
+        this.timestamp = new Date();
+        this.relatedObjectId = relatedObjectId;
+        this.isPinned = false; 
     }
 
-    public void setParentNews(News parentNews) {
-        this.parentNews = parentNews;
+   
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public String getContent() {
@@ -32,33 +46,72 @@ public class Comment {
         this.content = content;
     }
 
-    public User getAuthor() {
-        return author;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public Integer getRelatedObjectId() {
+        return relatedObjectId;
+    }
+
+    public void setRelatedObjectId(Integer relatedObjectId) {
+        this.relatedObjectId = relatedObjectId;
+    }
+
+   
+    public void pinComment() {
+        this.isPinned = true;
+        System.out.println("Comment was pinned.");
+    }
+
+   
+    public void unpinComment() {
+        this.isPinned = false;
+        System.out.println("Comment is no longer pinned.");
+    }
+
+  
+    public void editContent(String newContent) {
+        this.content = newContent;
+        System.out.println("Comment was edited.");
+    }
+
+ 
+    public void deleteComment(Vector<Comment> commentList) {
+        if (commentList.remove(this)) {
+            System.out.println("Comment was successfully deleted.");
+        } else {
+            System.out.println("Comment is not found in the list.");
+        }
     }
 
     public boolean isPinned() {
-        return pinned;
+        return isPinned;
     }
 
-    public void setPinned(boolean pinned) {
-        this.pinned = pinned;
+  
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + commentId +
+                ", authorName='" + authorName + '\'' +
+                ", content='" + content + '\'' +
+                ", timestamp=" + timestamp +
+                ", relatedObjectId=" + relatedObjectId +
+                ", isPinned=" + isPinned +
+                '}';
     }
 
-    public void deleteComment() {
-        //TODO
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Comment)) return false;
+        Comment comment = (Comment) o;
+        return isPinned == comment.isPinned && Objects.equals(commentId, comment.commentId) && Objects.equals(authorName, comment.authorName) && Objects.equals(content, comment.content) && Objects.equals(timestamp, comment.timestamp) && Objects.equals(relatedObjectId, comment.relatedObjectId);
     }
-    public void pinComment() {
-        //TODO
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(commentId, authorName, content, timestamp, relatedObjectId, isPinned);
     }
-    public void unpinComment() {
-        //TODO
-    }
-    public void editComment(String content) {
-        //TODO
-    }
-    
 }

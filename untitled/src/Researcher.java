@@ -1,3 +1,4 @@
+
 import java.util.Date;
 import java.util.Vector;
 
@@ -17,6 +18,7 @@ public  interface Researcher
 	public Vector<ResearchProject> getResearchProjects();
 	public void joinResearchProject(ResearchProject parameter) throws NotResearcherException;
 	public void printPapers() throws NotResearcherException;
+	
 	
 	
 }

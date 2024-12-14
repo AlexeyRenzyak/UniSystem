@@ -1,15 +1,42 @@
+import java.util.Objects;
+
 public class Mark {
 
-    private int value;
-    private int studentId;
-    private String courseId;
-    private MarkType markType;
+    private int value; 
+    private int studentId; 
+    private String courseId; 
+    private MarkType markType; 
+
+
+    public Mark(int value, int studentId, String courseId, MarkType markType) {
+        if (value < 0 || value > 100) {
+            throw new IllegalArgumentException("Mark value must be between 0 and 100.");
+        }
+        if (studentId <= 0) {
+            throw new IllegalArgumentException("Student ID must be greater than 0.");
+        }
+        if (courseId == null || courseId.isEmpty()) {
+            throw new IllegalArgumentException("Course ID must not be empty.");
+        }
+        if (markType == null) {
+            throw new IllegalArgumentException("Mark type must not be null.");
+        }
+
+        this.value = value;
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.markType = markType;
+    }
+
 
     public int getValue() {
         return value;
     }
 
     public void setValue(int value) {
+        if (value < 0 || value > 100) {
+            throw new IllegalArgumentException("Mark value must be between 0 and 100.");
+        }
         this.value = value;
     }
 
@@ -18,6 +45,9 @@ public class Mark {
     }
 
     public void setStudentId(int studentId) {
+        if (studentId <= 0) {
+            throw new IllegalArgumentException("Student ID must be greater than 0.");
+        }
         this.studentId = studentId;
     }
 
@@ -26,6 +56,9 @@ public class Mark {
     }
 
     public void setCourseId(String courseId) {
+        if (courseId == null || courseId.isEmpty()) {
+            throw new IllegalArgumentException("Course ID must not be empty.");
+        }
         this.courseId = courseId;
     }
 
@@ -34,13 +67,37 @@ public class Mark {
     }
 
     public void setMarkType(MarkType markType) {
+        if (markType == null) {
+            throw new IllegalArgumentException("Mark type must not be null.");
+        }
         this.markType = markType;
     }
 
+
     public String getMarkDetails() {
-        //TODO
-        return "";
+        return String.format("Mark: %d, Student ID: %d, Course: %s, Type: %s",
+                value, studentId, courseId, markType);
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return String.format("Mark{value=%d, studentId=%d, courseId='%s', markType='%s'}", 
+                value, studentId, courseId, markType);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mark)) return false;
+        Mark mark = (Mark) o;
+        return value == mark.value && studentId == mark.studentId && Objects.equals(courseId, mark.courseId) && markType == mark.markType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, studentId, courseId, markType);
+    }
 }
+
+
+

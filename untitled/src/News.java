@@ -1,11 +1,23 @@
+import java.util.Objects;
 import java.util.Vector;
 
 public class News {
 
-    private String title;
-    private String content;
-    private String topic;
+    private int newsId; 
+    private String title; 
+    private String content; 
+    private String topic; 
     private Vector<Comment> comments;
+
+
+    public News(int newsId, String title, String content, String topic) {
+        this.newsId = newsId;
+        this.title = title;
+        this.content = content;
+        this.topic = topic;
+        this.comments = new Vector<>();
+    }
+
 
     public String getTitle() {
         return title;
@@ -39,17 +51,73 @@ public class News {
         this.topic = topic;
     }
 
-    public Vector getComments() {
+    public Vector<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Vector comments) {
+    public void setComments(Vector<Comment> comments) {
         this.comments = comments;
     }
 
-    public void editNews() {
-        //TODO
+
+    public void addComment(Comment comment) {
+        if (comment != null) {
+            comments.add(comment);
+            System.out.println("Comment added: " + comment.getContent());
+        } else {
+            System.out.println("Comment can't be null.");
+        }
     }
-    
-    
+
+  
+    public void removeComment(Comment comment) {
+        if (comments.remove(comment)) {
+            System.out.println("Comment deleted: " + comment.getContent());
+        } else {
+            System.out.println("Comment not found.");
+        }
+    }
+
+
+    public void editNews(String newTitle, String newContent) {
+        this.title = newTitle;
+        this.content = newContent;
+        System.out.println("News is edited: " + title);
+    }
+
+
+    public void printNewsInfo() {
+        System.out.println("News ID: " + newsId);
+        System.out.println("Title: " + title);
+        System.out.println("Topic: " + topic);
+        System.out.println("Content: " + content);
+        System.out.println("Comments: ");
+        for (Comment comment : comments) {
+            System.out.println("- " + comment.getContent());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "newsId=" + getNewsId() +
+                ", title='" + getTitle() + '\'' +
+                ", content='" + getContent() + '\'' +
+                ", topic='" + getTopic() + '\'' +
+                ", comments=" + getComments() +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof News)) return false;
+        News news = (News) o;
+        return newsId == news.newsId && Objects.equals(title, news.title) && Objects.equals(content, news.content) && Objects.equals(topic, news.topic) && Objects.equals(comments, news.comments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(newsId, title, content, topic, comments);
+    }
 }

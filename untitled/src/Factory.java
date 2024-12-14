@@ -7,8 +7,8 @@ public class Factory extends ObjectFactory {
         return null;
     }
 
-    public ResearchPaper createResearchPaper(String title, Vector<Researcher> authors, Journal journal, int pages, String doi, int citations, Date publicationDate) {
-        return new ResearchPaper(title, authors, journal, pages, doi, citations, publicationDate);
+    public ResearchPaper createResearchPaper(String title, Vector<Researcher> authors, int pages, String doi, int citations, Date publicationDate) {
+        return new ResearchPaper(title, authors, pages, doi, citations, publicationDate);
     }
     public ResearchProject createResearchProject(String topic, Vector<ResearchPaper> publishedPapers, Vector<Researcher> participants){
         return new ResearchProject(topic, publishedPapers, participants);

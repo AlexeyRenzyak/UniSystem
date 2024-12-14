@@ -128,7 +128,7 @@ public abstract class User implements Researcher{
         if(getIsReseacher() == false){
             throw new NotResearcherException("Not a researcher");
         }
-        Hub.getInstance().getFactory().createResearchPaper(title, new Vector<Researcher>(Arrays.asList(this)), journal, pages, doi, citations, publicationDate);
+        Hub.getInstance().getFactory().createResearchPaper(title, new Vector<Researcher>(Arrays.asList(this)), pages, doi, citations, publicationDate);
 
     }
 

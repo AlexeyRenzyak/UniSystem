@@ -1,14 +1,22 @@
 import java.util.Date;
+import java.util.Objects;
 
 public class Order extends Message {
 
     private Employee assignedTo;
     private Date createdAt;
     private Date completedAt;
-    private boolean status;
+    private Status status;
     private String description;
     private int orderId;
     private TechSupporter techSupporter;
+
+    public Order(Employee recipient, Employee sender, Date timestamp, String content, String description, int orderId) {
+        super(recipient, sender, timestamp, content);
+        this.createdAt = new Date();
+        this.description = description;
+        this.orderId = orderId;
+    }
 
     public Employee getAssignedTo() {
         return assignedTo;
@@ -34,11 +42,11 @@ public class Order extends Message {
         this.completedAt = completedAt;
     }
 
-    public boolean isStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -67,18 +75,59 @@ public class Order extends Message {
     }
 
     public void acceptOrder() {
-        //TODO
+        if (status == Status.UNKNOWN) {
+            status = Status.ACCEPTED;
+            createdAt = new Date();
+        } else {
+            System.out.println("Order cannot be accepted. Current status: " + status);
+        }
     }
+
     public void rejectOrder() {
-        //TODO
+        if (status == Status.UNKNOWN) {
+            status = Status.REJECTED;
+            completedAt = new Date();
+        } else {
+            System.out.println("Order cannot be rejected. Current status: " + status);
+        }
     }
+
     public void markAsDone() {
-        //TODO
+        if (status == Status.ACCEPTED) {
+            status = Status.DONE;
+            completedAt = new Date();
+        } else {
+            System.out.println("Order cannot be marked as done. Current status: " + status);
+        }
     }
+
     public String getOrderDetails() {
-        //TODO
-        return "";
+        return "Order ID: " + orderId + "\nDescription: " + description + "\nStatus: " + status;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return orderId == order.orderId && Objects.equals(assignedTo, order.assignedTo) && Objects.equals(createdAt, order.createdAt) && Objects.equals(completedAt, order.completedAt) && status == order.status && Objects.equals(description, order.description) && Objects.equals(techSupporter, order.techSupporter);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(assignedTo, createdAt, completedAt, status, description, orderId, techSupporter);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "assignedTo=" + getAssignedTo() +
+                ", createdAt=" + getCreatedAt() +
+                ", completedAt=" + getCompletedAt() +
+                ", status=" + getStatus() +
+                ", description='" + getDescription() + '\'' +
+                ", orderId=" + getOrderId() +
+                ", techSupporter=" + getTechSupporter() +
+                '}';
+    }
 }
