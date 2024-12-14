@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Objects;
 
 public class Message {
 
@@ -88,5 +89,18 @@ public class Message {
         		recipient.getFirstName() + recipient.getFirstName(), 
                 timestamp.toString(), 
                 content);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message)) return false;
+        Message message = (Message) o;
+        return Objects.equals(recipient, message.recipient) && Objects.equals(sender, message.sender) && Objects.equals(timestamp, message.timestamp) && Objects.equals(content, message.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recipient, sender, timestamp, content);
     }
 }
