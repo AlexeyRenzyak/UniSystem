@@ -1,9 +1,10 @@
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Vector;
+import java.util.*;
 
-
+class ResearcherIndexException extends Exception {
+    public ResearcherIndexException(String message) {
+        super(message);
+    }
+}
 
 public abstract class User implements Researcher{
 
@@ -18,6 +19,7 @@ public abstract class User implements Researcher{
     private Vector<ResearchPaper> researchPapers;
     private Vector<ResearchProject> researchProjects;
     private Vector<Journal> journalSubscriptions;
+    private Vector<Message> notifications;
 
     public User(int userId, String firstName, String lastName, String password, String email, String phoneNumber, Date registrationDate, boolean isResearcher) {
         this.userId = userId;
@@ -31,6 +33,24 @@ public abstract class User implements Researcher{
         this.researchPapers = new Vector<>();
         this.researchProjects = new Vector<>();
         this.journalSubscriptions = new Vector<>();
+    }
+
+    public Vector<Message> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Vector<Message> notifications) {
+        this.notifications = notifications;
+    }
+
+    public void addNotification(Message message) {
+        this.notifications.add(message);
+    }
+
+    public void printNotifications() {
+        for (Message message : notifications) {
+            System.out.println(message);
+        }
     }
 
     public void setResearchPapers(Vector<ResearchPaper> researchPapers) {
@@ -158,13 +178,22 @@ public abstract class User implements Researcher{
         if(getIsReseacher() == false){
             throw new NotResearcherException("Not a researcher");
         }
+        else {
+            researchProject.addParticipant(this);
+        }
 
     }
 
     @Override
-    public void printPapers() throws NotResearcherException {
+    public void printPapers(Comparator c) throws NotResearcherException {
         if(getIsReseacher() == false){
             throw new NotResearcherException("Not a researcher");
+        }
+        else {
+            Collections.sort(researchPapers, c);
+            for (ResearchPaper researchPaper : researchPapers) {
+                System.out.println(researchPaper);
+            }
         }
 
     }
@@ -174,7 +203,28 @@ public abstract class User implements Researcher{
         if(getIsReseacher() == false){
             throw new NotResearcherException("Not a researcher");
         }
-        return 0;
+        else {
+            Collections.sort(researchPapers, new CitationComparatorDesc());
+            int hIndex = 0;
+
+            for (int i = 0; i < researchPapers.size(); i++) {
+                if (researchPapers.get(i).getCitations() >= i + 1) {
+                    hIndex = i + 1;
+                } else {
+                    break;
+                }
+            }
+            return hIndex;
+
+        }
+    }
+    @Override
+    public int getAllCitations(){
+        Integer result = 0;
+        for (ResearchPaper researchPaper : researchPapers) {
+            result += researchPaper.getCitations();
+        }
+        return result;
     }
 
     @Override

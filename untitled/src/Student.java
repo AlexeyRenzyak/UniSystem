@@ -3,9 +3,11 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Vector;
 
+
 public class Student extends User{
 
     private String major;
+    private String school;
     private int studentId;
     private int maxCredits = 21;
     private StudentType studentType;
@@ -17,7 +19,9 @@ public class Student extends User{
     private HashMap<Course, Vector<Mark>> marks;
     private Vector<StudentOrganization> organizations;
 
-    public Student(int studentId, String firstName, String lastName, String password, String email, String phoneNumber, Date registrationDate, boolean isResearcher, String major, StudentType studentType, int year) {
+
+
+    public Student(int studentId, String firstName, String lastName, String password, String email, String phoneNumber, Date registrationDate, boolean isResearcher, String major, StudentType studentType, int year, String school) {
         super(studentId, firstName, lastName, password, email, phoneNumber, registrationDate, isResearcher);
         this.major = major;
         this.studentId = studentId;
@@ -28,7 +32,32 @@ public class Student extends User{
         this.pendingCourses = new Vector<>();
         this.marks = new HashMap<Course, Vector<Mark>>();
         this.organizations = new Vector<>();
+        this.school = school;
     }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public void setSupervisor(Researcher supervisor)throws ResearcherIndexException {
+        try {
+            if (supervisor.calculateHIndex() < 3) {
+                throw new ResearcherIndexException("H Index is too low");
+            }
+            else {
+                this.supervisor = supervisor;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public Vector<Course> getPendingCourses() {
         return pendingCourses;

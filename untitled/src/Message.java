@@ -3,13 +3,13 @@ import java.util.Objects;
 
 public class Message {
 
-    private Employee recipient; 
-    private Employee sender; 
+    private User recipient;
+    private User sender;
     private Date timestamp; 
     private String content; 
 
 
-    public Message(Employee recipient, Employee sender, Date timestamp, String content) {
+    public Message(User recipient, User sender, Date timestamp, String content) {
         if (recipient == null) {
             throw new IllegalArgumentException("Recipient can't be null.");
         }
@@ -29,7 +29,7 @@ public class Message {
     }
 
  
-    public Employee getRecipient() {
+    public User getRecipient() {
         return recipient;
     }
 
@@ -40,7 +40,7 @@ public class Message {
         this.recipient = recipient;
     }
 
-    public Employee getSender() {
+    public User getSender() {
         return sender;
     }
 

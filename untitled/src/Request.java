@@ -1,7 +1,14 @@
+import java.util.Date;
+
 public class Request extends Message {
 
     private Manager signedBy;
     private Manager requestRecipient;
+
+    public Request(Employee recipient, Employee sender, Date timestamp, String content, Manager requestRecipient) {
+        super(recipient, sender, timestamp, content);
+        this.requestRecipient = requestRecipient;
+    }
 
     public Manager getSignedBy() {
         return signedBy;
@@ -20,7 +27,8 @@ public class Request extends Message {
     }
 
     public void sign(Manager manager) {
-        //TODO
+        this.signedBy = manager;
+        requestRecipient.addRequest(this);
     }
     
 }

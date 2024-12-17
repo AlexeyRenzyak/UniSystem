@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -8,16 +9,25 @@ public class News {
     private String content; 
     private String topic; 
     private Vector<Comment> comments;
+    private Date date;
 
 
-    public News(int newsId, String title, String content, String topic) {
+    public News(int newsId, String title, String content, String topic, Date date) {
         this.newsId = newsId;
         this.title = title;
         this.content = content;
         this.topic = topic;
         this.comments = new Vector<>();
+        this.date = new Date();
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getTitle() {
         return title;

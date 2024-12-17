@@ -1,10 +1,11 @@
+import java.util.HashMap;
 import java.util.Vector;
 
 public class Course {
 
     private int credits;
     private int year;
-    private String courseName;
+    private HashMap<String, String> courseName;
     private int courseId;
     private String parentDepartment;
     private CourseType courseType;
@@ -20,13 +21,30 @@ public class Course {
         this.credits = credits;
     }
 
-    public String getCourseName() {
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public HashMap<String, String> getCourseName() {
         return courseName;
     }
 
-    public void setCourseName(String courseName) {
+    public void setCourseName(HashMap<String, String> courseName) {
         this.courseName = courseName;
     }
+
+    public String getCourseNameEntry(String language) {
+        return courseName.get(language);
+    }
+
+    public void setCourseNameEntry(String courseName, String language) {
+        this.courseName.put(language, courseName);
+    }
+
 
     public int getCourseId() {
         return courseId;

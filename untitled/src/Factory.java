@@ -8,13 +8,21 @@ public class Factory extends ObjectFactory {
     }
 
     public ResearchPaper createResearchPaper(String title, Vector<Researcher> authors, int pages, String doi, int citations, Date publicationDate) {
-        return new ResearchPaper(title, authors, pages, doi, citations, publicationDate);
+        ResearchPaper result = new ResearchPaper(title, authors, pages, doi, citations, publicationDate);
+        return result;
     }
     public ResearchProject createResearchProject(String topic, Vector<ResearchPaper> publishedPapers, Vector<Researcher> participants){
-        return new ResearchProject(topic, publishedPapers, participants);
+        ResearchProject result = new ResearchProject(topic, publishedPapers, participants);
+        return result;
     }
-    public Message createMessage(String content, Employee recipient, Employee sender) {
-        return new Message(recipient, sender, new Date(), content);
+    public Message createMessage(String content, User recipient, User sender) {
+        Message result = new Message(recipient, sender, new Date(), content);
+        return result;
+    }
+
+    public News createNews(int newsId, String title, String content, String topic, Date date){
+        News result = new News(newsId, title, content, topic, date);
+        return result;
     }
 
 

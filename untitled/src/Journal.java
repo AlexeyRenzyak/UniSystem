@@ -66,6 +66,7 @@ public class Journal {
         }
         researchPapers.add(researchPaper);
         System.out.println("Publication added: " + researchPaper.getTitle());
+        notifySubscribers(researchPaper);
     }
 
     public void printJournalInfo() {
@@ -125,6 +126,12 @@ public class Journal {
             System.out.println("User " + user.getFirstName() + user.getLastName()  + " unsubscribed from: " + name);
         } else {
             System.out.println("User is not subscribed.");
+        }
+    }
+
+    public void notifySubscribers(ResearchPaper paper) {
+        for (User user : subscribers) {
+            user.addNotification(Hub.getInstance().getFactory().createMessage("The Journal: " + toString() + " Have been updated with: " + paper.toString(), user, (User) paper.getAuthors().get(0)));
         }
     }
 

@@ -6,6 +6,15 @@ public class Manager extends Employee {
     private int managerId;
     private ManagerType managerType;
     private Vector<Request> requests;
+    private Vector<Complaint> complaints;
+
+    public Vector<Complaint> getComplaints() {
+        return complaints;
+    }
+
+    public void setComplaints(Vector<Complaint> complaints) {
+        this.complaints = complaints;
+    }
 
     public Vector<Course> getManagedCourses() {
         return managedCourses;
@@ -39,6 +48,10 @@ public class Manager extends Employee {
         this.requests = requests;
     }
 
+    public void addRequest(Request request) {
+        requests.add(request);
+    }
+
     public void manageNews() {
         //TODO
     }
@@ -57,6 +70,16 @@ public class Manager extends Employee {
     }
     public void addCourseToPool() {
         //TODO
+    }
+
+    public void receiveComplaint(Complaint complaint) {
+        complaints.add(complaint);
+    }
+
+    public void seeComplaints(){
+        for(Complaint complaint : complaints){
+            System.out.println(complaint);
+        }
     }
     
     

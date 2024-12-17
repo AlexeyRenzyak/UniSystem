@@ -1,5 +1,5 @@
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Hub {
 
@@ -184,6 +184,57 @@ public class Hub {
     public void addNews() {
         //TODO
     }
-    
-    
+
+    public void printAllPapers(Comparator c){
+        Collections.sort(researchPapers, c);
+        for(ResearchPaper rp : researchPapers){
+            System.out.println(rp.toString());
+        }
+    }
+
+    public void topCitedResearchers(){
+        Vector<Student> studentResearchers = new Vector<>();
+        for(Student s : students){
+            if(s.isResearcher()) {
+                studentResearchers.add(s);
+            }
+
+        }
+        Map<String, Student> topResearchersBySchool = studentResearchers.stream()
+                .collect(Collectors.groupingBy(
+                        Student::getSchool,
+                        Collectors.collectingAndThen(
+                                Collectors.maxBy(Comparator.comparingInt(Researcher::getAllCitations)),
+                                Optional::get
+                        )
+                ));
+        System.out.println("Top Researchers by School:");
+        topResearchersBySchool.forEach((school, researcher) ->
+                System.out.println("School: " + school + ", Top Researcher: " + researcher));
+    }
+
+    public void printAllNews(){
+        Collections.sort(news, new NewsComparator());
+        for(News n : news){
+            System.out.println(n.toString());
+        }
+        Researcher topResearcher = topCitedResearcher();
+        if (topResearcher != null) {
+            News generatedNews = new News(0, "Top Cited Researcher", topCitedResearcher().toString(), "Generated", new Date());
+            System.out.println(generatedNews.toString());
+        }
+
+    }
+
+
+    public Researcher topCitedResearcher(){
+        if (researchers.size() == 0){
+            return null;
+        }
+        Collections.sort(researchers, Comparator.comparingInt(Researcher::getAllCitations));
+        return researchers.get(0);
+    }
 }
+
+    
+
