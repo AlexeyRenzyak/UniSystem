@@ -5,10 +5,11 @@ public class Mark {
     private int value; 
     private int studentId; 
     private String courseId; 
-    private MarkType markType; 
+    private MarkType markType;
+    private MarkTypeAttestation markTypeAttestation;
 
 
-    public Mark(int value, int studentId, String courseId, MarkType markType) {
+    public Mark(int value, int studentId, String courseId, MarkType markType, MarkTypeAttestation markTypeAttestation) {
         if (value < 0 || value > 100) {
             throw new IllegalArgumentException("Mark value must be between 0 and 100.");
         }
@@ -26,8 +27,16 @@ public class Mark {
         this.studentId = studentId;
         this.courseId = courseId;
         this.markType = markType;
+        this.markTypeAttestation = markTypeAttestation;
     }
 
+    public MarkTypeAttestation getMarkTypeAttestation() {
+        return markTypeAttestation;
+    }
+
+    public void setMarkTypeAttestation(MarkTypeAttestation markTypeAttestation) {
+        this.markTypeAttestation = markTypeAttestation;
+    }
 
     public int getValue() {
         return value;
@@ -90,12 +99,12 @@ public class Mark {
         if (this == o) return true;
         if (!(o instanceof Mark)) return false;
         Mark mark = (Mark) o;
-        return value == mark.value && studentId == mark.studentId && Objects.equals(courseId, mark.courseId) && markType == mark.markType;
+        return value == mark.value && studentId == mark.studentId && Objects.equals(courseId, mark.courseId) && markType == mark.markType && markTypeAttestation == mark.markTypeAttestation;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, studentId, courseId, markType);
+        return Objects.hash(value, studentId, courseId, markType, markTypeAttestation);
     }
 }
 

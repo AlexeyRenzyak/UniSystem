@@ -20,8 +20,18 @@ public class Factory extends ObjectFactory {
         return result;
     }
 
+    public Complaint createComplaint(String content, Manager recipient, Teacher sender,ComplaintUrgency urgency, Vector<Student> objects) {
+        Complaint result = new Complaint(recipient, sender, new Date(), content, urgency, objects);
+        return result;
+    }
+
     public News createNews(int newsId, String title, String content, String topic, Date date){
         News result = new News(newsId, title, content, topic, date);
+        return result;
+    }
+
+    public Mark createMark(int value, int studentId, String courseId, MarkType markType, MarkTypeAttestation markTypeAttestation){
+        Mark result = new Mark(value, studentId, courseId, markType, markTypeAttestation);
         return result;
     }
 

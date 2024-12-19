@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.Vector;
 
 public class Teacher extends Employee{
@@ -9,6 +10,11 @@ public class Teacher extends Employee{
     private Vector<Lesson> lessons;
     private Vector<Integer> rating;
 
+    public Teacher(int employeeId, String firstName, String lastName, String password, String email, String phoneNumber, Date registrationDate, boolean isResearcher, String position, int teacherId, TeacherType teacherType) {
+        super(employeeId, firstName, lastName, password, email, phoneNumber, registrationDate, isResearcher, position);
+        this.teacherId = teacherId;
+        this.teacherType = teacherType;
+    }
 
     public Vector<Integer> getRating() {
         return rating;
@@ -50,6 +56,22 @@ public class Teacher extends Employee{
         this.lessons = lessons;
     }
 
+    public void addLesson(Lesson lesson) {
+        this.lessons.add(lesson);
+    }
+
+    public void removeLesson(Lesson lesson) {
+        this.lessons.remove(lesson);
+    }
+
+    public void addCourse(Course course) {
+        this.courses.add(course);
+    }
+
+    public void removeCourse(Course course) {
+        this.courses.remove(course);
+    }
+
     public void addRating(int rating) {
         if(rating <= 0){
             rating = 1;
@@ -59,18 +81,122 @@ public class Teacher extends Employee{
         this.rating.add(rating);
     }
 
-    public void sendComplaint() {
-        //TODO
+    public void sendComplaint(Manager receiver, String message, Vector<Student> objects, ComplaintUrgency urgency) {
+        if (receiver.getManagerType() != ManagerType.DEAN){
+            if(Hub.getInstance().getLanguage() == Language.RUS) {
+                System.out.println("Жалобы можно отправлять лишь декану");
+            }
+            else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+                System.out.println("-----");
+            }
+            else {
+                System.out.println("Complaints can be sent only to dean");
+            }
+            return;
+        }
+        receiver.receiveComplaint(Hub.getInstance().getFactory().createComplaint(message, receiver, this, urgency, objects));
     }
-    public void manageCourse() {
-        //TODO
-    }
-    public void viewStudents() {
-        //TODO
-    }
-    public void assignMark() {
-        //TODO
+    public void manageCourseAddStudentLesson(Course course, Lesson lesson, Student student) {
+        if(courses.contains(course)){
+            if(lessons.contains(lesson)){
+                if(!lesson.getStudents().contains(student)){
+                    lesson.assignStudent(student);
+                    return;
+                }
+
+                if(Hub.getInstance().getLanguage() == Language.RUS) {
+                    System.out.println("Студент уже назначен на урок");
+                }
+                else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+                    System.out.println("-----");
+                }
+                else {
+                    System.out.println("Student already assigned to lesson");
+                }
+                return;
+            }
+        }
+        if(Hub.getInstance().getLanguage() == Language.RUS) {
+            System.out.println("Ошибка");
+        }
+        else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+            System.out.println("-----");
+        }
+        else {
+            System.out.println("Error");
+        }
     }
 
-    
+    public void manageCourseRemoveStudentLesson(Course course, Lesson lesson, Student student) {
+        if(courses.contains(course)){
+            if(lessons.contains(lesson)){
+                if(!lesson.getStudents().contains(student)){
+                    lesson.deassignStudent(student);
+                    return;
+                }
+
+                if(Hub.getInstance().getLanguage() == Language.RUS) {
+                    System.out.println("Студент не назначен на урок");
+                }
+                else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+                    System.out.println("-----");
+                }
+                else {
+                    System.out.println("Student is not assigned to lesson");
+                }
+                return;
+            }
+        }
+        if(Hub.getInstance().getLanguage() == Language.RUS) {
+            System.out.println("Ошибка");
+        }
+        else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+            System.out.println("-----");
+        }
+        else {
+            System.out.println("Error");
+        }
+    }
+
+    public void viewCourses(){
+        for(Course course : courses){
+            System.out.println(course);
+        }
+    }
+
+    public void viewLessons(){
+        for(Lesson lesson : lessons){
+            System.out.println(lesson);
+        }
+    }
+
+    public void viewStudents(Course course) {
+        for(Student student : course.getStudents()){
+            System.out.println(student.getStudentId() + " " + student.getFirstName() + " " + student.getLastName());
+        }
+    }
+
+    public void viewStudent(Student student){
+        System.out.println(student);
+    }
+
+    public void assignMark(Course course, Student student, Mark mark) {
+        for(Lesson lesson : lessons){
+            if(lesson.getCourse().equals(course)){
+                if(lesson.getStudents().contains(student)){
+                    student.receiveMark(course, mark);
+                    return;
+                }
+            }
+        }
+        if(Hub.getInstance().getLanguage() == Language.RUS) {
+            System.out.println("Ошибка");
+        }
+        else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+            System.out.println("-----");
+        }
+        else {
+            System.out.println("Error");
+        }
+    }
 }

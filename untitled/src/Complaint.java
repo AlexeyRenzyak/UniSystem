@@ -6,7 +6,7 @@ public class Complaint extends Message {
     private ComplaintUrgency urgency;
     private Vector<Student> objects;
 
-    public Complaint(Employee recipient, Employee sender, Date timestamp, String content, ComplaintUrgency urgency, Vector<Student> objects) {
+    public Complaint(Manager recipient, Teacher sender, Date timestamp, String content, ComplaintUrgency urgency, Vector<Student> objects) {
         super(recipient, sender, timestamp, content);
         this.urgency = urgency;
         this.objects = objects;

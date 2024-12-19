@@ -101,17 +101,21 @@ public class Lesson {
 
     public void assignTeacher(Teacher teacher) {
         this.teacher = teacher;
+        teacher.getLessons().add(this);
     }
 
     public void deassignTeacher(Teacher teacher) {
         this.teacher = null;
+        teacher.getLessons().remove(this);
     }
 
     public void assignStudent(Student student) {
         this.students.add(student);
+        student.getLessons().add(this);
     }
     public void deassignStudent(Student student) {
         this.students.remove(student);
+        student.getLessons().remove(this);
     }
 
     public void scheduleLesson(Time start, Time end ) {

@@ -35,6 +35,8 @@ public abstract class User implements Researcher{
         this.journalSubscriptions = new Vector<>();
     }
 
+
+
     public Vector<Message> getNotifications() {
         return notifications;
     }

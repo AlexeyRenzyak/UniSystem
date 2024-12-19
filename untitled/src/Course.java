@@ -5,7 +5,7 @@ public class Course {
 
     private int credits;
     private int year;
-    private HashMap<String, String> courseName;
+    private HashMap<Language, String> courseName;
     private int courseId;
     private String parentDepartment;
     private CourseType courseType;
@@ -29,19 +29,19 @@ public class Course {
         this.year = year;
     }
 
-    public HashMap<String, String> getCourseName() {
+    public HashMap<Language, String> getCourseName() {
         return courseName;
     }
 
-    public void setCourseName(HashMap<String, String> courseName) {
+    public void setCourseName(HashMap<Language, String> courseName) {
         this.courseName = courseName;
     }
 
-    public String getCourseNameEntry(String language) {
+    public String getCourseNameEntry(Language language) {
         return courseName.get(language);
     }
 
-    public void setCourseNameEntry(String courseName, String language) {
+    public void setCourseNameEntry(String courseName, Language language) {
         this.courseName.put(language, courseName);
     }
 

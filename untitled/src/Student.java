@@ -14,6 +14,7 @@ public class Student extends User{
     private int year;
     private Researcher supervisor;
     private Vector<Course> courses;
+    private Vector<Lesson> lessons;
     private Vector<Course> completedCourses;
     private Vector<Course> pendingCourses;
     private HashMap<Course, Vector<Mark>> marks;
@@ -33,6 +34,14 @@ public class Student extends User{
         this.marks = new HashMap<Course, Vector<Mark>>();
         this.organizations = new Vector<>();
         this.school = school;
+    }
+
+    public Vector<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Vector<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
     public String getSchool() {
@@ -144,17 +153,72 @@ public class Student extends User{
         this.organizations = organizations;
     }
 
-    public String getTranscript() {
-        //AWAITING MARKS IMPLEMENTATION
-        return null;
+    public HashMap<Course, HashMap<String, Double>> getTranscript() {
+        HashMap<Course, HashMap<String, Double>> transcript = new HashMap<>();
+        for(Course course:marks.keySet()) {
+            HashMap<String, Double> courseTranscript = new HashMap<>();
+            double first = 0;
+            double second = 0;
+            double fExam = 0;
+            for(Mark mark:marks.get(course)) {
+                if(mark.getMarkTypeAttestation() == MarkTypeAttestation.FIRST){
+                    first += mark.getValue();
+                }
+                else if(mark.getMarkTypeAttestation() == MarkTypeAttestation.SECOND){
+                    second += mark.getValue();
+                }
+                else if(mark.getMarkTypeAttestation() == MarkTypeAttestation.FINAL){
+                    fExam += mark.getValue();
+                }
+            }
+            courseTranscript.put("first", first);
+            courseTranscript.put("second", second);
+            courseTranscript.put("final", fExam);
+            courseTranscript.put("total", first+second+fExam);
+            transcript.put(course, courseTranscript);
+
+        }
+        return transcript;
     }
 
     public void viewTranscript() {
-        //AWAITING MARKS IMPLEMENTATION
+        HashMap<Course, HashMap<String, Double>> transcript = getTranscript();
+        for(Course course:transcript.keySet()) {
+            System.out.println("=========");
+            System.out.println(course.getCourseNameEntry(Hub.getInstance().getLanguage()));
+            if(Hub.getInstance().getLanguage() == Language.RUS) {
+                System.out.println("Первая Аттестация: "+ transcript.get(course).get("first"));
+                System.out.println("Вторая Аттестация: "+ transcript.get(course).get("second"));
+                System.out.println("Сессия: "+ transcript.get(course).get("final"));
+                System.out.println("Сумма: "+ transcript.get(course).get("total"));
+            }
+            else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+                System.out.println("-----"+ transcript.get(course).get("first"));
+                System.out.println("-----"+ transcript.get(course).get("second"));
+                System.out.println("-----"+ transcript.get(course).get("final"));
+                System.out.println("-----"+ transcript.get(course).get("total"));
+            }
+            else {
+                System.out.println("First Attestation: "+ transcript.get(course).get("first"));
+                System.out.println("Second Attestation: "+ transcript.get(course).get("second"));
+                System.out.println("Final Exam: "+ transcript.get(course).get("final"));
+                System.out.println("Total: "+ transcript.get(course).get("total"));
+            }
+            System.out.println("=========");
+        }
     }
 
     public void viewMarks() {
-        //AWAITING MARKS IMPLEMENTATION
+        for(Course course:marks.keySet()) {
+            System.out.println(course.getCourseNameEntry(Hub.getInstance().getLanguage()));
+            for(Mark mark:marks.get(course)) {
+                System.out.println(mark.getMarkTypeAttestation() + " " + mark.getValue() + " " + mark.getMarkType());
+            }
+        }
+    }
+
+    public void receiveMark(Course course, Mark mark) {
+        marks.get(course).add(mark);
     }
 
     public void rateTeacher(Teacher teacher, Integer rating) {
@@ -171,11 +235,29 @@ public class Student extends User{
     public void joinOrganization(StudentOrganization organization) {
         organization.addMember(this);
     }
-    public void registerCourse(Course course) {   //Requires fleshing out with course types, etc.
+    public void becomeHeadOfOrganization(StudentOrganization organization) {
+        organization.setHead(this);
+    }
+
+    public void registerCourse(Course course) {
         if(!pendingCourses.contains(course)) {
-            if(getPendingCredits()+course.getCredits() <= maxCredits) {
-                pendingCourses.add(course);
+            if(Hub.getInstance().getMajorCoursesMap().get(course).get(major) != CourseType.UNAVAILABLE) {
+                if(year >= course.getYear()){
+                    if (getPendingCredits() + course.getCredits() <= maxCredits) {
+                        pendingCourses.add(course);
+                        return;
+                    }
+                }
             }
+        }
+        if(Hub.getInstance().getLanguage() == Language.RUS) {
+            System.out.println("Ошибка");
+        }
+        else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+            System.out.println("-----");
+        }
+        else {
+            System.out.println("Error");
         }
     }
 

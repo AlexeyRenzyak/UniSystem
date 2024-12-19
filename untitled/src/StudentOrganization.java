@@ -5,6 +5,7 @@ public class StudentOrganization {
 
     private String name;
     private String description;
+    private Student head;
     private Vector<Student> members;
 
     public StudentOrganization(String name, String description) {
@@ -44,6 +45,18 @@ public class StudentOrganization {
     public void removeMember(Student student) {
         members.remove(student);
         student.getOrganizations().remove(this);
+    }
+
+    public void removeMemberDeletion(Student student) {
+        members.remove(student);
+    }
+
+    public Student getHead() {
+        return head;
+    }
+
+    public void setHead(Student head) {
+        this.head = head;
     }
 
     @Override

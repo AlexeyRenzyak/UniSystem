@@ -1,4 +1,4 @@
 public enum CourseType
 {
-	MAJOR, MINOR, FREE;
+	MAJOR, MINOR, FREE, UNAVAILABLE;
 }

@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 public class Hub {
@@ -14,6 +15,8 @@ public class Hub {
     private HashMap<String, User> credentials;
     private Vector<Teacher> teachers;
     private Vector<Student> students;
+    private Vector<Manager> managers;
+    private Vector<TechSupporter> techSupporters;
     private Vector<Researcher> researchers;
     private Vector<StudentOrganization> organizations;
     private Vector<ResearchPaper> researchPapers;
@@ -21,12 +24,51 @@ public class Hub {
     private Vector<Course> courses;
     private Vector<Journal> journals;
     private HashMap<Integer, Object> objects;
+    private Vector<Order> orders;
 
     private Factory factory;
+
+    private Language language = Language.ENG;
 
     private Hub(){
         this.hubId = 0;
         this.factory = new Factory();
+    }
+
+    public Vector<Manager> getManagers() {
+        return managers;
+    }
+
+    public void setManagers(Vector<Manager> managers) {
+        this.managers = managers;
+    }
+
+    public Vector<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Vector<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Vector<TechSupporter> getTechSupporters() {
+        return techSupporters;
+    }
+
+    public void setTechSupporters(Vector<TechSupporter> techSupporters) {
+        this.techSupporters = techSupporters;
+    }
+
+    public static void setInstance(Hub instance) {
+        Hub.instance = instance;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public Factory getFactory() {
@@ -172,11 +214,103 @@ public class Hub {
         this.objects = objects;
     }
 
-    public void removeUser() {
-        //TODO
+    public void removeUser(User user) {
+        if(user instanceof Teacher){
+            teachers.remove((Teacher)user);
+            users.remove(user);
+            if(user.getIsReseacher()){
+                researchers.remove((Researcher)user);
+            }
+            objects.remove(user.getUserId(), user);
+            for(Course course: ((Teacher) user).getCourses()){
+                course.getTeachers().remove((Teacher)user);
+            }
+            for(Lesson lesson: ((Teacher) user).getLessons()){
+                if(lesson.getTeacher() == user){
+                    lesson.setTeacher(null);
+                }
+            }
+            for(Journal journal: user.getJournalSubscriptions()){
+                journal.getSubscribers().remove(user);
+            }
+        }
+        else if(user instanceof Student){
+            students.remove((Student) user);
+            users.remove(user);
+            if(user.getIsReseacher()){
+                researchers.remove((Researcher)user);
+            }
+            objects.remove(user.getUserId(), user);
+            for(Course course: ((Student) user).getCourses()){
+                course.getStudents().remove((Student)user);
+            }
+            for(Lesson lesson: ((Student) user).getLessons()){
+                lesson.getStudents().remove((Student)user);
+            }
+            for(StudentOrganization studentOrganization: ((Student) user).getOrganizations()){
+                studentOrganization.removeMemberDeletion((Student)user);
+                if (studentOrganization.getHead() == (Student) user){
+                    studentOrganization.setHead(null);
+                }
+            }
+            for(Journal journal: user.getJournalSubscriptions()){
+                journal.getSubscribers().remove(user);
+            }
+        }
+        else if(user instanceof Manager){
+            managers.remove((Manager) user);
+            users.remove(user);
+            if(user.getIsReseacher()){
+                researchers.remove((Researcher)user);
+            }
+            objects.remove(user.getUserId(), user);
+            for(Journal journal: user.getJournalSubscriptions()){
+                journal.getSubscribers().remove(user);
+            }
+        }
+        else if(user instanceof TechSupporter){
+            techSupporters.remove((TechSupporter) user);
+            users.remove(user);
+            if(user.getIsReseacher()){
+                researchers.remove((Researcher)user);
+            }
+            objects.remove(user.getUserId(), user);
+        }
     }
-    public void addUser() {
-        //TODO
+    public void addUser(User user) {
+        if(user instanceof Teacher){
+            teachers.add((Teacher)user);
+            users.add(user);
+            if(user.getIsReseacher()){
+                researchers.add((Researcher)user);
+            }
+            objects.put(user.getUserId(), user);
+        }
+        else if(user instanceof Student){
+            students.add((Student) user);
+            users.add(user);
+            if(user.getIsReseacher()){
+                researchers.add((Researcher)user);
+            }
+            objects.put(user.getUserId(), user);
+        }
+        else if(user instanceof Manager){
+            managers.add((Manager) user);
+            users.add(user);
+            if(user.getIsReseacher()){
+                researchers.add((Researcher)user);
+            }
+            objects.put(user.getUserId(), user);
+        }
+        else if(user instanceof TechSupporter){
+            techSupporters.add((TechSupporter) user);
+            users.add(user);
+            if(user.getIsReseacher()){
+                researchers.add((Researcher)user);
+            }
+            objects.put(user.getUserId(), user);
+        }
+
     }
     public void addLesson() {
         //TODO

@@ -12,7 +12,7 @@ public class TechSupporter extends Employee {
             String phoneNumber, java.util.Date registrationDate, String position, int supportId) {
     	super(employeeId, firstName, lastName, password, email, phoneNumber, registrationDate, false, position);
     	this.supportId = supportId;
-    	this.orders = new Vector<>();
+    	this.orders = Hub.getInstance().getOrders();
     	this.logs = new Vector<>();
 }
 
@@ -44,7 +44,7 @@ public class TechSupporter extends Employee {
         return logs;
     }
 
-        public void viewNewOrders(Vector<Order> allOrders) {
+    public void viewNewOrders(Vector<Order> allOrders) {
         System.out.println("New Orders:");
         for (Order order : allOrders) {
             if (order.getStatus() == Status.UNKNOWN) {
