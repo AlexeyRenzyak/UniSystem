@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
 
-public class Comment {
+public class Comment implements Serializable {
     private Integer commentId; 
     private String authorName; 
     private String content; 

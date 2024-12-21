@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-public class Comment1 {
+public class Comment1 implements Serializable {
 
     private News parentNews; 
     private Date timestamp; 

@@ -96,6 +96,7 @@ public class Teacher extends Employee{
         }
         receiver.receiveComplaint(Hub.getInstance().getFactory().createComplaint(message, receiver, this, urgency, objects));
     }
+
     public void manageCourseAddStudentLesson(Course course, Lesson lesson, Student student) {
         if(courses.contains(course)){
             if(lessons.contains(lesson)){

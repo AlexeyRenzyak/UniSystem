@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Order extends Message {
+public class Order extends Message implements Serializable {
 
     private Employee assignedTo;
     private Date createdAt;

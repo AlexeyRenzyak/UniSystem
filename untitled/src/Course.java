@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class Course {
+public class Course implements Serializable {
 
     private int credits;
     private int year;
@@ -12,6 +13,21 @@ public class Course {
     private Vector<Course> prerequisites;
     private Vector<Teacher> teachers;
     private Vector<Student> students;
+    private Vector<Lesson> lessons;
+
+    public Course(int courseId, String courseName, Language language, int credits, int year, CourseType courseType, String parentDepartment) {
+        this.courseId = courseId;
+        this.courseName = new HashMap<>();
+        this.courseName.put(language, courseName);
+        this.credits = credits;
+        this.year = year;
+        this.courseType = courseType;
+        this.parentDepartment = parentDepartment;
+        this.prerequisites = new Vector<>();
+        this.teachers = new Vector<>();
+        this.students = new Vector<>();
+        this.lessons = new Vector<>();
+    }
 
     public int getCredits() {
         return credits;
@@ -44,7 +60,6 @@ public class Course {
     public void setCourseNameEntry(String courseName, Language language) {
         this.courseName.put(language, courseName);
     }
-
 
     public int getCourseId() {
         return courseId;
@@ -94,12 +109,31 @@ public class Course {
         this.students = students;
     }
 
-    public void removeLesson() {
-        //TODO
+    public void removeLesson(Lesson lesson) {
+        if (lessons.contains(lesson)) {
+            lessons.remove(lesson);
+            System.out.println("Урок " + lesson.getLessonId() + " удален с курса " + this.getCourseNameEntry(Language.ENG));
+        } else {
+            System.out.println("Урок не найден в списке курса.");
+        }
     }
-    public void addLesson() {
-        //TODO
+
+    public void addLesson(Lesson lesson) {
+        lessons.add(lesson);
+        System.out.println("Урок " + lesson.getLessonId() + " добавлен на курс " + this.getCourseNameEntry(Language.ENG));
     }
-    
-    
+
+    public void assignTeacher(Teacher teacher) {
+        if (!teachers.contains(teacher)) {
+            teachers.add(teacher);
+            System.out.println("Преподаватель " + teacher.getFirstName() + " " + teacher.getLastName() + " назначен на курс " + this.getCourseNameEntry(Language.ENG));
+        }
+    }
+
+    public void registerStudent(Student student) {
+        if (!students.contains(student)) {
+            students.add(student);
+            System.out.println("Студент " + student.getFirstName() + " " + student.getLastName() + " зарегистрирован на курс " + this.getCourseNameEntry(Language.ENG));
+        }
+    }
 }

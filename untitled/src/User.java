@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 
 class ResearcherIndexException extends Exception {
@@ -6,7 +7,7 @@ class ResearcherIndexException extends Exception {
     }
 }
 
-public abstract class User implements Researcher{
+public abstract class User implements Researcher, Serializable {
 
     private int userId;
     private String firstName;

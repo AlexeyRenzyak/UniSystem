@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
-public class Lesson {
+public class Lesson implements Serializable {
 
     private int lessonId;
     private Course course;

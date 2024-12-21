@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
-public class StudentOrganization {
+public class StudentOrganization implements Serializable {
 
     private String name;
     private String description;

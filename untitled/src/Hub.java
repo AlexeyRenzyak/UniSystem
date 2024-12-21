@@ -1,8 +1,9 @@
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
-public class Hub {
+public class Hub implements Serializable {
 
     private static Hub instance;
 
@@ -29,6 +30,8 @@ public class Hub {
     private Factory factory;
 
     private Language language = Language.ENG;
+
+    public transient User loggedUser;
 
     private Hub(){
         this.hubId = 0;
@@ -214,6 +217,10 @@ public class Hub {
         this.objects = objects;
     }
 
+    public void addLogEntry(LogEntry logEntry) {
+        logs.add(logEntry);
+    }
+
     public void removeUser(User user) {
         if(user instanceof Teacher){
             teachers.remove((Teacher)user);
@@ -360,6 +367,61 @@ public class Hub {
 
     }
 
+    public Student findStudentByName(String firstName,String lastName){
+        for(Student student : students){
+            if(student.getFirstName().equals(firstName) && student.getLastName().equals(lastName)){
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public Teacher findTeacherByName(String firstName, String lastName){
+        for(Teacher teacher : teachers){
+            if(teacher.getFirstName().equals(firstName) && teacher.getLastName().equals(lastName)){
+                return teacher;
+            }
+        }
+        return null;
+    }
+
+    public Manager findManagerByName(String firstName, String lastName){
+        for(Manager manager : managers){
+            if(manager.getFirstName().equals(firstName) && manager.getLastName().equals(lastName)){
+                return manager;
+            }
+        }
+        return null;
+    }
+
+    public User logIn(String email, String password) {
+        if (credentials.get(email) == null) {
+            if (Hub.getInstance().getLanguage() == Language.RUS) {
+                System.out.println("Пользователь не найден");
+            } else if (Hub.getInstance().getLanguage() == Language.KAZ) {
+                System.out.println("-----");
+            } else {
+                System.out.println("User not found");
+            }
+            return null;
+        }
+        if (credentials.get(email).login(email, password)) {
+            return credentials.get(email);
+        }
+        else{
+            if(Hub.getInstance().getLanguage() == Language.RUS) {
+                System.out.println("Неправильный пароль");
+            }
+            else if(Hub.getInstance().getLanguage() == Language.KAZ) {
+                System.out.println("-----");
+            }
+            else {
+                System.out.println("Wrong password");
+            }
+            return null;
+        }
+    }
+
 
     public Researcher topCitedResearcher(){
         if (researchers.size() == 0){
@@ -367,6 +429,25 @@ public class Hub {
         }
         Collections.sort(researchers, Comparator.comparingInt(Researcher::getAllCitations));
         return researchers.get(0);
+    }
+
+    public void serialize(){
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("system.txt"));
+            out.writeObject(this);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deserialize(){
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("system.txt"));
+            Hub.setInstance((Hub)in.readObject());
+        }
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
 

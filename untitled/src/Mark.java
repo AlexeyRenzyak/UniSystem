@@ -1,10 +1,12 @@
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Objects;
 
-public class Mark {
+public class Mark implements Serializable {
 
     private int value; 
     private int studentId; 
-    private String courseId; 
+    private HashMap<Language, String> courseId;
     private MarkType markType;
     private MarkTypeAttestation markTypeAttestation;
 

@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
-public class ResearchProject {
+public class ResearchProject implements Serializable {
 
     private String topic;
     private Vector<ResearchPaper> publishedPapers ;

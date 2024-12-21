@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Message {
+public class Message implements Serializable {
 
     private User recipient;
     private User sender;

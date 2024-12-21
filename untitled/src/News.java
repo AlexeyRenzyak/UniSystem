@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
-public class News {
+public class News implements Serializable {
 
     private int newsId; 
     private String title; 

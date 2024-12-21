@@ -1,4 +1,6 @@
-public abstract class ObjectFactory {
+import java.io.Serializable;
+
+public abstract class ObjectFactory implements Serializable {
     public ObjectFactory() {}
-    public abstract Object create(String name);
+    public abstract void create();
 }

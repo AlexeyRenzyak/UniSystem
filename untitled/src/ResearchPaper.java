@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
-public class ResearchPaper {
+public class ResearchPaper implements Serializable{
 
     private String title; 
     private Vector<Researcher> authors; 

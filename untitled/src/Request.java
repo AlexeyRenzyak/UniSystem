@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
 
-public class Request extends Message {
+public class Request extends Message implements Serializable {
 
     private Manager signedBy;
     private Manager requestRecipient;

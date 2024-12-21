@@ -1,10 +1,17 @@
+import java.io.Serializable;
 import java.util.Date;
 
-public class LogEntry {
+public class LogEntry implements Serializable {
 
     private String type;
     private Date date;
     private User user;
+
+    public LogEntry(String type, Date date, User user) {
+        this.type = type;
+        this.date = date;
+        this.user = user;
+    }
 
     public String getType() {
         return type;
