@@ -36,6 +36,23 @@ public class Hub implements Serializable {
     private Hub(){
         this.hubId = 0;
         this.factory = new Factory();
+        majorCoursesMap = new HashMap();
+        news = new Vector<>();
+        users = new Vector<>();
+        credentials = new HashMap();
+        teachers = new Vector<>();
+        students = new Vector<>();
+        managers = new Vector<>();
+        techSupporters = new Vector<>();
+        researchers = new Vector<>();
+        organizations = new Vector<>();
+        researchPapers = new Vector<>();
+        logs = new Vector<>();
+        courses = new Vector<>();
+        journals = new Vector<>();
+        objects = new HashMap();
+        orders = new Vector<>();
+
     }
 
     public Vector<Manager> getManagers() {

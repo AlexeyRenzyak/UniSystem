@@ -11,7 +11,7 @@ public class Mark implements Serializable {
     private MarkTypeAttestation markTypeAttestation;
 
 
-    public Mark(int value, int studentId, String courseId, MarkType markType, MarkTypeAttestation markTypeAttestation) {
+    public Mark(int value, int studentId, HashMap<Language, String> courseId, MarkType markType, MarkTypeAttestation markTypeAttestation) {
         if (value < 0 || value > 100) {
             throw new IllegalArgumentException("Mark value must be between 0 and 100.");
         }
@@ -62,11 +62,11 @@ public class Mark implements Serializable {
         this.studentId = studentId;
     }
 
-    public String getCourseId() {
+    public HashMap<Language, String> getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseId(HashMap<Language, String> courseId) {
         if (courseId == null || courseId.isEmpty()) {
             throw new IllegalArgumentException("Course ID must not be empty.");
         }

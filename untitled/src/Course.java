@@ -15,10 +15,9 @@ public class Course implements Serializable {
     private Vector<Student> students;
     private Vector<Lesson> lessons;
 
-    public Course(int courseId, String courseName, Language language, int credits, int year, CourseType courseType, String parentDepartment) {
+    public Course(int courseId, HashMap<Language, String> courseName, int credits, int year, CourseType courseType, String parentDepartment) {
         this.courseId = courseId;
-        this.courseName = new HashMap<>();
-        this.courseName.put(language, courseName);
+        this.courseName = courseName;
         this.credits = credits;
         this.year = year;
         this.courseType = courseType;
